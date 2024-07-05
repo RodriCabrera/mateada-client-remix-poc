@@ -4,6 +4,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigate,
+  useRouteError,
 } from "@remix-run/react";
 import "./tailwind.css";
 
@@ -19,6 +21,29 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  console.error(error);
+  const navigate = useNavigate();
+  const goBack = () => navigate(-1);
+
+  return (
+    <html lang="en">
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        Error. Go Back and try again.
+        <button onClick={() => goBack()}>GO BACK</button>
+        {/* TODO: Add error UI */}
         <Scripts />
       </body>
     </html>
